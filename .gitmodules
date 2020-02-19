@@ -1,0 +1,6 @@
+[submodule "rubocop"]
+	path = rubocop
+	url = https://github.com/rubocop-hq/rubocop.git
+[submodule "rubocop-ast"]
+	path = rubocop-ast
+	url = git@github.com:marcandre/rubocop-ast.git
