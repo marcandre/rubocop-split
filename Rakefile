@@ -57,3 +57,18 @@ task process: %i[filter]
 
 # If needed:
 task reprocess: %i[reset filter reapply]
+
+def copy_files(from, to)
+  Dir["#{from}/**/*"].each do |path|
+    next if Dir.exist?(path)
+    dest_path = "#{to}#{path[from.length...]}"
+    FileUtils.mkdir_p(File.dirname(dest_path))
+    FileUtils.cp(path, dest_path)
+  end
+end
+
+task :copy_extra do
+  copy_files("copy/#{dest}", dest)
+  `cd #{dest} && git add . && git commit -m "Create gem files"`
+end
+
