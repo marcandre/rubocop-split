@@ -1,6 +1,16 @@
 source = 'rubocop'
 dest = 'rubocop-ast'
-paths = %w[lib/rubocop/ast lib/rubocop/node_pattern.rb spec/rubocop/ast spec/rubocop/node_pattern_spec.rb]
+paths = %w[
+  lib/rubocop/ast
+  lib/rubocop/node_pattern.rb
+  lib/rubocop/processed_source.rb
+  lib/rubocop/token.rb
+  spec/rubocop/ast
+  spec/rubocop/node_pattern_spec.rb
+  spec/rubocop/processed_source_spec.rb
+  spec/rubocop/token_spec.rb
+  manual/node_pattern.md
+]
 
 task :init do
   raise "Target '#{dest}' already exist, delete it manually if you want to proceed" if Dir.exists?(dest)
