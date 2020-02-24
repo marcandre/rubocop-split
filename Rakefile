@@ -2,6 +2,7 @@ source = 'rubocop'
 dest = 'rubocop-ast'
 paths = %w[
   lib/rubocop/ast
+  lib/rubocop/error.rb
   lib/rubocop/node_pattern.rb
   lib/rubocop/processed_source.rb
   lib/rubocop/token.rb
