@@ -31,7 +31,10 @@ task :reset do
 end
 
 task :filter do
-  `cd #{dest} && git filter-branch -f --prune-empty --index-filter 'git ls-files | grep -vE "#{paths.join('|')}" | xargs git rm -rf --cached --ignore-unmatch'`
+  path_option = paths.map { |p| "--path #{p}" }.join(' ')
+  cmd = "cd #{dest} && ../git-filter-repo --force #{path_option}"
+  puts cmd
+  `#{cmd}`
   # See https://stackoverflow.com/questions/42834812/remove-all-except-certain-folders-from-git-history
   `cd #{dest} && git tag -f filtered`
 end
