@@ -32,31 +32,20 @@ end
 
 task :filter do
   path_option = paths.map { |p| "--path #{p}" }.join(' ')
-  cmd = "cd #{dest} && ../git-filter-repo --force #{path_option}"
+  cmd = "cd #{dest} && ../git-filter-repo #{path_option}"
   puts cmd
   `#{cmd}`
   # See https://stackoverflow.com/questions/42834812/remove-all-except-certain-folders-from-git-history
-  `cd #{dest} && git tag -f filtered`
-end
-
-task :reapply do
-  `cd #{dest} && git cherry-pick previous_filtered..previous_processed`
 end
 
 task :remove_dupped do
   `cd #{source} && rm -rf #{paths.join(' ')}`
 end
 
-# First time setup:
-task setup: %i[init setup_git delete_all_tags]
-
 # Process
-task process: %i[filter]
+task process: %i[clean filter setup_git]
 
 # Add commits
-
-# If needed:
-task reprocess: %i[reset filter reapply]
 
 def copy_files(from, to)
   Dir["#{from}/**/*"].each do |path|
