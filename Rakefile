@@ -18,6 +18,10 @@ task :init do
   `cp -a #{source} #{dest}`
 end
 
+task :reset do
+  `cd #{dest} && git reset --hard origin/master`
+end
+
 task :setup_git do
   `cd #{dest} && git remote add fork git@github.com:marcandre/rubocop-ast.git`
 end
@@ -32,7 +36,7 @@ end
 
 task :filter do
   path_option = paths.map { |p| "--path #{p}" }.join(' ')
-  cmd = "cd #{dest} && ../git-filter-repo #{path_option}"
+  cmd = "cd #{dest} && ../git-filter-repo --force #{path_option}"
   puts cmd
   `#{cmd}`
   # See https://stackoverflow.com/questions/42834812/remove-all-except-certain-folders-from-git-history
@@ -41,9 +45,6 @@ end
 task :remove_dupped do
   `cd #{source} && rm -rf #{paths.join(' ')}`
 end
-
-# Process
-task process: %i[clean filter setup_git]
 
 # Add commits
 
@@ -61,3 +62,5 @@ task :copy_extra do
   `cd #{dest} && git add . && git commit -m "Create gem files"`
 end
 
+# Process
+task process: %i[init reset filter setup_git delete_all_tags copy_extra]
