@@ -34,9 +34,9 @@ task :delete_all_tags do
 end
 
 task :filter do
-  path_option = paths.map { |p| "--path #{p}" }.join(' ')
+  path_option = [*paths, *rename.keys].map { |p| "--path #{p}" }.join(' ')
   rename_option = rename.map { |from, to| "--path-rename #{from}:#{to}"}.join(' ')
-  cmd = "cd #{dest} && ../git-filter-repo #{path_option} #{rename_option}"
+  cmd = "cd #{dest} && ../git-filter-repo --force #{path_option} #{rename_option}"
   puts cmd
   `#{cmd}`
   # See https://stackoverflow.com/questions/42834812/remove-all-except-certain-folders-from-git-history
@@ -49,7 +49,7 @@ end
 # Add commits
 
 def copy_files(from, to)
-  Dir["#{from}/**/*"].each do |path|
+  Dir["#{from}/**/*", File::FNM_DOTMATCH].each do |path|
     next if Dir.exist?(path)
     dest_path = "#{to}#{path[from.length...]}"
     FileUtils.mkdir_p(File.dirname(dest_path))
