@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+require 'yaml'
 require 'rubocop-ast'
-require_relative '../rubocop/rspec/ast_helper.rb'
+require_relative '../lib/rubocop/rspec/ast_helper.rb'
 
 if ENV['COVERAGE'] == 'true'
   require 'simplecov'
@@ -28,14 +29,21 @@ RSpec.shared_context 'ruby 2.7', :ruby27 do
   let(:ruby_version) { 2.7 }
 end
 
+module DefaultRubyVersion
+  extend RSpec::SharedContext
+
+  let(:ruby_version) { 2.4 }
+end
+
 RSpec.configure do |config|
+  config.include SourceHelper
+  config.include DefaultRubyVersion
+
   config.shared_context_metadata_behavior = :apply_to_host_groups
   config.filter_run_when_matching :focus
   config.example_status_persistence_file_path = 'spec/examples.txt'
   config.disable_monkey_patching!
   config.warnings = true
-
-  config.default_formatter = 'doc' if config.files_to_run.one?
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

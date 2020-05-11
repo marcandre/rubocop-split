@@ -1,6 +1,7 @@
 require 'parser'
 require 'forwardable'
 
+require_relative 'rubocop/error'
 require_relative 'rubocop/node_pattern'
 
 require_relative 'rubocop/ast/sexp'

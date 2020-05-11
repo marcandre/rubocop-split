@@ -22,7 +22,7 @@ task :init do
 end
 
 task :reset do
-  `cd #{dest} && git reset --hard origin/master`
+  `cd #{dest} && git reset --hard before_split`
 end
 
 task :setup_git do
