@@ -12,6 +12,9 @@ paths = %w[
   spec/rubocop/token_spec.rb
   manual/node_pattern.md
 ]
+rename = {
+  'spec/support/file_helper.rb' => 'lib/rubocop/rspec/file_helper.rb',
+}
 
 task :init do
   raise "Target '#{dest}' already exist, delete it manually if you want to proceed" if Dir.exists?(dest)
@@ -32,7 +35,8 @@ end
 
 task :filter do
   path_option = paths.map { |p| "--path #{p}" }.join(' ')
-  cmd = "cd #{dest} && ../git-filter-repo --force #{path_option}"
+  rename_option = rename.map { |from, to| "--path-rename #{from}:#{to}"}.join(' ')
+  cmd = "cd #{dest} && ../git-filter-repo #{path_option} #{rename_option}"
   puts cmd
   `#{cmd}`
   # See https://stackoverflow.com/questions/42834812/remove-all-except-certain-folders-from-git-history

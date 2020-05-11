@@ -2,8 +2,6 @@
 
 require 'rubocop-ast'
 
-require_relative 'source_helper'
-
 if ENV['COVERAGE'] == 'true'
   require 'simplecov'
   SimpleCov.start
@@ -30,8 +28,6 @@ RSpec.shared_context 'ruby 2.7', :ruby27 do
 end
 
 RSpec.configure do |config|
-  config.include SourceHelper
-
   config.shared_context_metadata_behavior = :apply_to_host_groups
   config.filter_run_when_matching :focus
   config.example_status_persistence_file_path = 'spec/examples.txt'
