@@ -30,10 +30,6 @@ task :delete_all_tags do
   `cd #{dest} && git tag | xargs -L 1 | xargs git tag --delete`
 end
 
-task :reset do
-  `cd #{dest} && git fetch --no-tags && git tag -f previous_filtered filtered && git branch -f previous_processed && git reset --hard origin/master`
-end
-
 task :filter do
   path_option = paths.map { |p| "--path #{p}" }.join(' ')
   cmd = "cd #{dest} && ../git-filter-repo --force #{path_option}"
