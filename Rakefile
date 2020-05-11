@@ -26,7 +26,7 @@ task :reset do
 end
 
 task :setup_git do
-  `cd #{dest} && git remote add fork git@github.com:marcandre/rubocop-ast.git`
+  `cd #{dest} && git remote set-url fork git@github.com:marcandre/rubocop-ast.git`
 end
 
 task :delete_all_tags do
@@ -49,7 +49,7 @@ end
 # Add commits
 
 def copy_files(from, to)
-  Dir["#{from}/**/*", File::FNM_DOTMATCH].each do |path|
+  Dir.glob("#{from}/**/*", File::FNM_DOTMATCH).each do |path|
     next if Dir.exist?(path)
     dest_path = "#{to}#{path[from.length...]}"
     FileUtils.mkdir_p(File.dirname(dest_path))

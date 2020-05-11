@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rubocop-ast'
-require 'rubocop/rspec/file_helper.rb'
+require_relative '../rubocop/rspec/ast_helper.rb'
 
 if ENV['COVERAGE'] == 'true'
   require 'simplecov'
